@@ -1,0 +1,23 @@
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+legend{
+    text-align: center;
+}
+table{
+    margin: auto;
+}
+td{
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+fieldset{
+    margin-top: 20px;
+}
+.center{
+    text-align: center;
+}
+label{
+    text-transform: uppercase;
+}

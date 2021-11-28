@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Big Picture Quiz - Admin</title>
+    <link href="./TBPQ_Icon.png" rel="icon" sizes="16*16">
+    <link rel="stylesheet" href="/main.css">
+    <script src="./main.js"></script>
+</head>
+
+<body onload="setQuestionId()">
+    <fieldset>
+        <legend>
+            Question Answer Database Creation Form
+        </legend>
+        <form id="TBPQ">
+            <table>
+                <tr>
+                    <!-- Question Id Field -->
+
+                    <td><label>Question Id </label></td>
+                    <td><input type="text" name="" id="inputQuestionId" placeholder="Question Id"></td>
+                    <td><label id="labelQuestionId"></label></td>
+
+                    <!-- Image Url Field -->
+
+                    <td><label>Image Url</label></td>
+                    <td><input type="text" name="" id="inputImageUrl" placeholder="Image Url"></td>
+                    <td><label id="labelImageUrl"></label></td>
+
+                </tr>
+                <tr>
+                    <!-- Image Source Field -->
+
+                    <td><label>Image Source</label></td>
+                    <td><input type="text" name="" id="inputImageSource" placeholder="Image Source"></td>
+                    <td><label id="labelImageSource"></label></td>
+                    <!-- Question Field -->
+
+                    <td><label>Question</label></td>
+                    <td><input type="text" name="" id="inputQuestion" placeholder="Question"></td>
+                    <td><label id="labelQuestion"></label></td>
+
+                </tr>
+                <tr>
+                    <!-- Option 1 Field -->
+
+                    <td><label>Option 1</label></td>
+                    <td><input type="text" name="" id="inputOptionOne" placeholder="Option 1" required></td>
+                    <td><label id="labelOptionOne"></label></td>
+
+                    <!-- Option 2 Field -->
+
+                    <td><label>Option 2</label></td>
+                    <td><input type="text" name="" id="inputOptionTwo" placeholder="Option 2" required></td>
+                    <td><label id="labelOptionOne"></label></td>
+                </tr>
+                <tr>
+                    <!-- Option 3 Field -->
+
+                    <td><label>Option 3</label></td>
+                    <td><input type="text" name="" id="inputOptionThree" placeholder="Option 3" required></td>
+                    <td><label id="labelOptionOne"></label></td>
+
+                    <!-- Option 4 Field -->
+
+                    <td><label>Option 4</label></td>
+                    <td><input type="text" name="" id="inputOptionFour" placeholder="Option 4" required></td>
+                    <td><label id="labelOptionOne"></label></td>
+                </tr>
+                <tr>
+                    <!-- Correct Option Field -->
+
+                    <td><label>Correct Option</label></td>
+                    <td><input type="text" name="" id="inputCorrectOption" placeholder="Correct Option" required></td>
+                    <td><label id="labelCorrectOption"></label></td>
+
+                    <!-- Category Option Field -->
+
+                    <td><label>Category </label></td>
+                    <td><input type="text" name="" id="inputCategory" placeholder="Category" required></td>
+                    <td><label id="labelCategory"></label></td>
+
+                </tr>
+            </table>
+            <div class="center">
+                <!-- Submit Field -->
+
+                <input type="submit" name="" id="inputSaveData" value="Save Data">
+                <!-- Clear Field -->
+
+                <input type="reset" name="" id="inputClearData" value="Reset Fields">
+            </div>
+        </form>
+    </fieldset>
+
+    <!-- Stored Data Will Come Here -->
+
+    <fieldset>
+        <legend>
+            Stored Data From Server
+        </legend>
+        <table>
+            <tr>
+                <td>Question Id</td>
+                <td>Image Url</td>
+                <td>Image Source</td>
+                <td>Question</td>
+                <td>Option 1</td>
+                <td>Option 2</td>
+                <td>Option 3</td>
+                <td>Option 4</td>
+                <td>Correct Option</td>
+                <td>Category</td>
+            </tr>
+        </table>
+    </fieldset>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyChI0IvZfdZK4njzNa2Fe7OFPmrKVtL8MA",
+            authDomain: "picture-quiz-application.firebaseapp.com",
+            databaseURL: "https://picture-quiz-application-default-rtdb.firebaseio.com",
+            projectId: "picture-quiz-application",
+            storageBucket: "picture-quiz-application.appspot.com",
+            messagingSenderId: "276073581645",
+            appId: "1:276073581645:web:6dfd2cca754cb0b0106004",
+            measurementId: "G-GM10C98EL4"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        import { getDatabase, ref, get, set, child, update, remove }
+            from "https://www.gstatic.com/firebasejs/9.5.0/firebase-database.js";
+
+        const db = getDatabase();
+        // References
+
+        var questionId = document.getElementById("inputQuestionId");
+        var imageUrl = document.getElementById("inputImageUrl");
+        var imageSource = document.getElementById("inputImageSource");
+        var question = document.getElementById("inputQuestion");
+        var optionOne = document.getElementById("inputOptionOne");
+        var optionTwo = document.getElementById("inputOptionTwo");
+        var optionThree = document.getElementById("inputOptionThree");
+        var optionFour = document.getElementById("inputOptionFour");
+        var correctOption = document.getElementById("inputCorrectOption");
+        var category = document.getElementById("inputCategory");
+
+        var saveData = document.getElementById("inputSaveData");
+
+        // Insert Data Function 
+
+        function InsertData() {
+            set(ref(db, "Question/" + questionId.value), {
+                questionId: questionId.value,
+                imageUrl: imageUrl.value,
+                imageSource: imageSource.value,
+                question: question.value,
+                optionOne: optionOne.value,
+                optionTwo: optionTwo.value,
+                optionThree: optionThree.value,
+                optionFour: optionFour.value,
+                correctOption: correctOption.value,
+                category: category.value
+            })
+                .then(() => {
+                    alert("Data Stored Successfully..!")
+                })
+                .catch((error) => {
+                    alert("Error Occured ," + error)
+                });
+            document.getElementById("TBPQ").reset();
+        }
+
+        saveData.addEventListener("click", InsertData);
+    </script>
+</body>
+
+</html>
