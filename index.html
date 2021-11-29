@@ -85,6 +85,13 @@
                     <td><label id="labelCategory"></label></td>
 
                 </tr>
+                <tr>
+                    <!-- Difficulty Level Field -->
+
+                    <td><label>Difficulty Level </label></td>
+                    <td><input type="text" name="" id="inputDifficultyLevel" placeholder="Difficulty Level" required></td>
+                    <td><label id="labelDifficultyLevel"></label></td>
+                </tr>
             </table>
             <div class="center">
                 <!-- Submit Field -->
@@ -115,6 +122,7 @@
                 <td>Option 4</td>
                 <td>Correct Option</td>
                 <td>Category</td>
+                <td>Difficulty Level</td>
             </tr>
         </table>
     </fieldset>
@@ -158,6 +166,7 @@
         var optionFour = document.getElementById("inputOptionFour");
         var correctOption = document.getElementById("inputCorrectOption");
         var category = document.getElementById("inputCategory");
+        var difficultyLevel = document.getElementById("inputDifficultyLevel");
 
         var saveData = document.getElementById("inputSaveData");
 
@@ -174,10 +183,12 @@
                 optionThree: optionThree.value,
                 optionFour: optionFour.value,
                 correctOption: correctOption.value,
-                category: category.value
+                category: category.value,
+                difficultyLevel: difficultyLevel.value,
             })
                 .then(() => {
-                    alert("Data Stored Successfully..!")
+                    alert("Data Stored Successfully..!");
+                    window.location.reload();
                 })
                 .catch((error) => {
                     alert("Error Occured ," + error)
