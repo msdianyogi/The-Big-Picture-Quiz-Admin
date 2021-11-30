@@ -11,37 +11,41 @@
     <script src="./main.js"></script>
 </head>
 
-<body onload="setQuestionId()">
+<body onload="setQuestionId()" oncopy="return false">
     <fieldset>
         <legend>
             Question Answer Database Creation Form
         </legend>
-        <form id="TBPQ">
+        <form id="TBPQ" method="get" action="#">
             <table>
                 <tr>
                     <!-- Question Id Field -->
 
                     <td><label>Question Id </label></td>
-                    <td><input type="text" name="" id="inputQuestionId" placeholder="Question Id"></td>
+                    <td><input type="text" name="" id="inputQuestionId" placeholder="Question Id" pattern="[0-9]{16}"
+                            title="Please Refresh The Window" required></td>
                     <td><label id="labelQuestionId"></label></td>
 
                     <!-- Image Url Field -->
 
                     <td><label>Image Url</label></td>
-                    <td><input type="text" name="" id="inputImageUrl" placeholder="Image Url"></td>
+                    <td><input type="text" name="" id="inputImageUrl" placeholder="Image Url"
+                            title="Ex. https://pixabay.com/vectors/australia-australia-day-borders-1296727/" required>
+                    </td>
                     <td><label id="labelImageUrl"></label></td>
-
                 </tr>
                 <tr>
                     <!-- Image Source Field -->
 
                     <td><label>Image Source</label></td>
-                    <td><input type="text" name="" id="inputImageSource" placeholder="Image Source"></td>
+                    <td><input type="text" name="" id="inputImageSource" placeholder="Image Source" title="Ex. Pixabay"
+                            required></td>
                     <td><label id="labelImageSource"></label></td>
                     <!-- Question Field -->
 
                     <td><label>Question</label></td>
-                    <td><input type="text" name="" id="inputQuestion" placeholder="Question"></td>
+                    <td><input type="text" name="" id="inputQuestion" placeholder="Question"
+                            title="Ex. Which Country's Flag is this?" required></td>
                     <td><label id="labelQuestion"></label></td>
 
                 </tr>
@@ -49,39 +53,45 @@
                     <!-- Option 1 Field -->
 
                     <td><label>Option 1</label></td>
-                    <td><input type="text" name="" id="inputOptionOne" placeholder="Option 1" required></td>
+                    <td><input type="text" name="" id="inputOptionOne" placeholder="Option 1" title="Ex. India"
+                            required></td>
                     <td><label id="labelOptionOne"></label></td>
 
                     <!-- Option 2 Field -->
 
                     <td><label>Option 2</label></td>
-                    <td><input type="text" name="" id="inputOptionTwo" placeholder="Option 2" required></td>
+                    <td><input type="text" name="" id="inputOptionTwo" placeholder="Option 2" title="Ex. Australia"
+                            required></td>
                     <td><label id="labelOptionOne"></label></td>
                 </tr>
                 <tr>
                     <!-- Option 3 Field -->
 
                     <td><label>Option 3</label></td>
-                    <td><input type="text" name="" id="inputOptionThree" placeholder="Option 3" required></td>
+                    <td><input type="text" name="" id="inputOptionThree" placeholder="Option 3" title="Ex. New Zealand"
+                            required></td>
                     <td><label id="labelOptionOne"></label></td>
 
                     <!-- Option 4 Field -->
 
                     <td><label>Option 4</label></td>
-                    <td><input type="text" name="" id="inputOptionFour" placeholder="Option 4" required></td>
+                    <td><input type="text" name="" id="inputOptionFour" placeholder="Option 4" title="Ex. England"
+                            required></td>
                     <td><label id="labelOptionOne"></label></td>
                 </tr>
                 <tr>
                     <!-- Correct Option Field -->
 
                     <td><label>Correct Option</label></td>
-                    <td><input type="text" name="" id="inputCorrectOption" placeholder="Correct Option" required></td>
+                    <td><input type="text" name="" id="inputCorrectOption" placeholder="Correct Option"
+                            title="Ex. Australia" required></td>
                     <td><label id="labelCorrectOption"></label></td>
 
                     <!-- Category Option Field -->
 
                     <td><label>Category </label></td>
-                    <td><input type="text" name="" id="inputCategory" placeholder="Category" required></td>
+                    <td><input type="text" name="" id="inputCategory" placeholder="Category"
+                            title="Ex. Sports/Gk/Entertainment" required></td>
                     <td><label id="labelCategory"></label></td>
 
                 </tr>
@@ -89,7 +99,9 @@
                     <!-- Difficulty Level Field -->
 
                     <td><label>Difficulty Level </label></td>
-                    <td><input type="text" name="" id="inputDifficultyLevel" placeholder="Difficulty Level" required></td>
+                    <td><input type="text" name="" id="inputDifficultyLevel" placeholder="Difficulty Level"
+                            title="Easy/Medium/Hard" required>
+                    </td>
                     <td><label id="labelDifficultyLevel"></label></td>
                 </tr>
             </table>
@@ -100,6 +112,10 @@
                 <!-- Clear Field -->
 
                 <input type="reset" name="" id="inputClearData" value="Reset Fields">
+
+                <!-- Clear Field -->
+
+                <input type="button" name="" id="inputGetData" value="Get Data">
             </div>
         </form>
     </fieldset>
@@ -110,21 +126,8 @@
         <legend>
             Stored Data From Server
         </legend>
-        <table>
-            <tr>
-                <td>Question Id</td>
-                <td>Image Url</td>
-                <td>Image Source</td>
-                <td>Question</td>
-                <td>Option 1</td>
-                <td>Option 2</td>
-                <td>Option 3</td>
-                <td>Option 4</td>
-                <td>Correct Option</td>
-                <td>Category</td>
-                <td>Difficulty Level</td>
-            </tr>
-        </table>
+        <div id="table">
+        </div>
     </fieldset>
     <script type="module">
         // Import the functions you need from the SDKs you need
@@ -168,8 +171,8 @@
         var category = document.getElementById("inputCategory");
         var difficultyLevel = document.getElementById("inputDifficultyLevel");
 
-        var saveData = document.getElementById("inputSaveData");
-
+        var submitForm = document.getElementById("TBPQ");
+        var getData = document.getElementById("inputGetData");
         // Insert Data Function 
 
         function InsertData() {
@@ -195,8 +198,59 @@
                 });
             document.getElementById("TBPQ").reset();
         }
+        // Select Data Function
 
-        saveData.addEventListener("click", InsertData);
+        function SelectData() {
+            const dbref = ref(db);
+            get(child(dbref, "Question/")).then((snapshot) => {
+                if (snapshot.exists()) {
+                    let table = '<table border="1">';
+                    table += `<tr>
+                        <td>Question Id</td>
+                        <td>Image Url</td>
+                        <td>Image Source</td>
+                        <td>Question</td>
+                        <td>Option 1</td>
+                        <td>Option 2</td>
+                        <td>Option 3</td>
+                        <td>Option 4</td>
+                        <td>Correct Option</td>
+                        <td>Category</td>
+                        <td>Difficulty Level</td>
+                    </tr>`;
+                    Object.keys(snapshot.val()).map(function (key) {
+                        table = table + `<tr>`;
+                        table = table + `<td>${snapshot.val()[key].questionId}</td>`;
+                        table = table + `
+                        <td>
+                            <img src="${snapshot.val()[key].imageUrl}" height="100px" width="100px"/>
+                        </td>`;
+                        table = table + `<td>${snapshot.val()[key].imageSource}</td>`;
+                        table = table + `<td>${snapshot.val()[key].question}</td>`;
+                        table = table + `<td>${snapshot.val()[key].optionOne}</td>`;
+                        table = table + `<td>${snapshot.val()[key].optionTwo}</td>`;
+                        table = table + `<td>${snapshot.val()[key].optionThree}</td>`;
+                        table = table + `<td>${snapshot.val()[key].optionFour}</td>`;
+                        table = table + `<td>${snapshot.val()[key].correctOption}</td>`;
+                        table = table + `<td>${snapshot.val()[key].category}</td>`;
+                        table = table + `<td>${snapshot.val()[key].difficultyLevel}</td>`;
+                        table += `</tr>`;
+                        console.log(snapshot.val()[key].category);
+                    });
+                    table += "</table>";
+                    document.getElementById("table").innerHTML = table;
+                }
+                else {
+                    alert("No Data Found");
+                }
+            }).catch((error) => {
+                alert("Error Occured ," + error)
+            })
+        }
+
+        
+        submitForm.addEventListener('submit', InsertData);
+        getData.addEventListener('click', SelectData);
     </script>
 </body>
 
