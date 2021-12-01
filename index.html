@@ -23,7 +23,7 @@
 
                     <td><label>Question Id </label></td>
                     <td><input type="text" name="" id="inputQuestionId" placeholder="Question Id" pattern="[0-9]{16}"
-                            title="Please Refresh The Window" required></td>
+                            title="Please Refresh The Window" required disabled></td>
                     <td><label id="labelQuestionId"></label></td>
 
                     <!-- Image Url Field -->
@@ -113,9 +113,19 @@
 
                 <input type="reset" name="" id="inputClearData" value="Reset Fields">
 
-                <!-- Clear Field -->
 
-                <input type="button" name="" id="inputGetData" value="Get Data">
+                <!-- Get Data To Update Field -->
+
+                <input type="button" name="" id="inputGetUpdateData" value="Get Data">
+
+                <!-- Update Data Field -->
+
+                <input type="button" name="" id="inputUpdateData" value="Update Data">
+
+                <!-- Delete Data Field -->
+
+                <input type="button" name="" id="inputDeleteData" value="Delete Data">
+
             </div>
         </form>
     </fieldset>
@@ -172,7 +182,9 @@
         var difficultyLevel = document.getElementById("inputDifficultyLevel");
 
         var submitForm = document.getElementById("TBPQ");
-        var getData = document.getElementById("inputGetData");
+        var updateData = document.getElementById("inputUpdateData");
+        var getUpdateData = document.getElementById("inputGetUpdateData");
+        var deleteData = document.getElementById("inputDeleteData");
         // Insert Data Function 
 
         function InsertData() {
@@ -234,8 +246,8 @@
                         table = table + `<td>${snapshot.val()[key].correctOption}</td>`;
                         table = table + `<td>${snapshot.val()[key].category}</td>`;
                         table = table + `<td>${snapshot.val()[key].difficultyLevel}</td>`;
+                        table = table + `<td> <input type="button" value="Select" onclick="getId(${snapshot.val()[key].questionId})"/>`;
                         table += `</tr>`;
-                        console.log(snapshot.val()[key].category);
                     });
                     table += "</table>";
                     document.getElementById("table").innerHTML = table;
@@ -248,9 +260,85 @@
             })
         }
 
-        
+        function GetDataToUpdateData() {
+
+            const dbref = ref(db);
+            get(child(dbref, "Question/" + questionId.value))
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        imageUrl.value = snapshot.val().imageUrl;
+                        imageSource.value = snapshot.val().imageSource;
+                        question.value = snapshot.val().question;
+                        optionOne.value = snapshot.val().optionOne;
+                        optionTwo.value = snapshot.val().optionTwo;
+                        optionThree.value = snapshot.val().optionThree;
+                        optionFour.value = snapshot.val().optionFour;
+                        correctOption.value = snapshot.val().correctOption;
+                        category.value = snapshot.val().category;
+                        difficultyLevel.value = snapshot.val().difficultyLevel;
+                        console.log(snapshot.val());
+                    }
+                    else {
+                        alert("No Data Found");
+                    }
+                }).catch((error) => {
+                    alert("Error Occured ," + error)
+                })
+        }
+        //Update Data Function
+        function UpdateData() {
+            update(ref(db, "Question/" + questionId.value), {
+                imageUrl: imageUrl.value,
+                imageSource: imageSource.value,
+                question: question.value,
+                optionOne: optionOne.value,
+                optionTwo: optionTwo.value,
+                optionThree: optionThree.value,
+                optionFour: optionFour.value,
+                correctOption: correctOption.value,
+                category: category.value,
+                difficultyLevel: difficultyLevel.value,
+            })
+                .then(() => {
+                    alert("Data Updated Successfully..!")
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    alert("Error Occured ," + error)
+                });
+            document.getElementById("TBPQ").reset();
+            console.log("Update Data Function...!");
+        }
+
+        function DeleteData() {
+            console.log("Delete Data...!")
+            const dbref = ref(db);
+            get(child(dbref, "Question/" + questionId.value))
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        remove(ref(db, "Question/" + questionId.value))
+                            .then(() => {
+                                alert("Data Removed Successfully..!");
+                                window.location.reload();
+                            })
+                            .catch((error) => {
+                                alert("Error Occured ," + error)
+                            });
+                        document.getElementById("TBPQ").reset();
+                    }
+                    else {
+                        alert("No Data Found");
+                    }
+                }).catch((error) => {
+                    alert("Error Occured ," + error)
+                })
+        }
+
         submitForm.addEventListener('submit', InsertData);
-        getData.addEventListener('click', SelectData);
+        updateData.addEventListener('click', UpdateData);
+        getUpdateData.addEventListener('click', GetDataToUpdateData);
+        deleteData.addEventListener('click', DeleteData);
+        window.addEventListener('load', SelectData);
     </script>
 </body>
 
