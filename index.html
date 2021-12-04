@@ -9,136 +9,192 @@
     <link href="./TBPQ_Icon.png" rel="icon" sizes="16*16">
     <link rel="stylesheet" href="./main.css">
     <script src="./main.js"></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 
 <body onload="setQuestionId()" oncopy="return false">
-    <fieldset>
-        <legend>
-            Question Answer Database Creation Form
-        </legend>
-        <form id="TBPQ" method="get" action="#">
-            <table>
-                <tr>
-                    <!-- Question Id Field -->
+    <div class="container border mt-5 pb-3">
+        <fieldset>
+            <legend>
+                Question Answer Database Creation Form
+            </legend>
+            <div class="container border pb-3">
+                <form class="row g-3 needs-validation" id="TBPQ" method="get" action="#" novalidate>
+                    <div class="col-md-3 col-sm-12">
+                        <label for="inputQuestionId" class="form-label">Question Id</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-123" id="questionIdIcon"></span>
+                            <input type="text" class="form-control " id="inputQuestionId" placeholder="Question Id"
+                                pattern="[0-9]{16}" title="Please Refresh The Window" aria-describedby="questionIdIcon"
+                                required>
+                            <div class="invalid-feedback">
+                                Please Refresh Window.
+                            </div>
+                        </div>
 
-                    <td><label>Question Id </label></td>
-                    <td><input type="text" name="" id="inputQuestionId" placeholder="Question Id" pattern="[0-9]{16}"
-                            title="Please Refresh The Window" required disabled></td>
-                    <td><label id="labelQuestionId"></label></td>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <label for="inputImageUrl" class="form-label">Image Url</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-globe" id="imageUrlIcon"></span>
+                            <input type="text" class="form-control" id="inputImageUrl" placeholder="Image Url"
+                                title="Ex. https://pixabay.com/vectors/australia-australia-day-borders-1296727/"
+                                required pattern="^(http,https){1}[:][/][/]" aria-describedby="imageUrlIcon">
+                            <div class="invalid-feedback">
+                                Ex. https://pixabay.com/vectors/australia-australia-day-borders-1296727/
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <label for="inputImageSource" class="form-label">Image Source</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-file-person" id="imageSourceIcon"></span>
+                            <input type="text" class="form-control" id="inputImageSource" placeholder="Image Source"
+                                title="Ex. Pixabay" aria-describedby="imageSourceIcon" required>
+                            <div class="invalid-feedback">
+                                Please enter source Ex. Pixabay.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputDifficultyLevel" class="form-label">Difficulty Level</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-water" id="difficultyLevelIcon"></span>
+                            <select class="form-select" id="inputDifficultyLevel" aria-describedby="difficultyLevelIcon"
+                                required>
+                                <option selected disabled value="">Select Difficulty</option>
+                                <option>Easy</option>
+                                <option>Medium</option>
+                                <option>Hard</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid difficulty level.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputQuestion" class="form-label">Question</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-patch-question" id="questionIcon"></span>
+                            <input type="text" class="form-control" id="inputQuestion" placeholder="Question"
+                                title="Ex. Which Country's Flag is this?" aria-describedby="questionIcon" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid Question.
+                            </div>
+                        </div>
+                    </div>
 
-                    <!-- Image Url Field -->
+                    <div class="col-md-3">
+                        <label for="inputCategory" class="form-label">Category</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-card-list" id="categoryIcon"></span>
+                            <input type="text" class="form-control" id="inputCategory" placeholder="Category"
+                                title="Ex. Sports/Gk/Entertainment" aria-describedby="categoryIcon" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid Category.
+                            </div>
+                        </div>
+                    </div>
 
-                    <td><label>Image Url</label></td>
-                    <td><input type="text" name="" id="inputImageUrl" placeholder="Image Url"
-                            title="Ex. https://pixabay.com/vectors/australia-australia-day-borders-1296727/" required>
-                    </td>
-                    <td><label id="labelImageUrl"></label></td>
-                </tr>
-                <tr>
-                    <!-- Image Source Field -->
+                    <div class="col-md-3">
+                        <label for="inputCorrectOption" class="form-label">Correct Option</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-check-circle" id="correctOptionIcon"></span>
+                            <input type="text" class="form-control" id="inputCorrectOption" placeholder="Correct Option"
+                                title="Ex. Austrilia" aria-describedby="correctOptionIcon" required>
+                            <div class="invalid-feedback">
+                                Please provide correct Option.
+                            </div>
+                        </div>
+                    </div>
 
-                    <td><label>Image Source</label></td>
-                    <td><input type="text" name="" id="inputImageSource" placeholder="Image Source" title="Ex. Pixabay"
-                            required></td>
-                    <td><label id="labelImageSource"></label></td>
-                    <!-- Question Field -->
+                    <div class="col-md-3">
+                        <label for="inputOptionOne" class="form-label">Option 1</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-option" id="optionOneIcon"></span>
+                            <input type="text" class="form-control" id="inputOptionOne" placeholder="Option 1"
+                                title="Ex. India" aria-describedby="optionOneIcon" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid Option.
+                            </div>
+                        </div>
+                    </div>
 
-                    <td><label>Question</label></td>
-                    <td><input type="text" name="" id="inputQuestion" placeholder="Question"
-                            title="Ex. Which Country's Flag is this?" required></td>
-                    <td><label id="labelQuestion"></label></td>
+                    <div class="col-md-3">
+                        <label for="inputOptionTwo" class="form-label">Option 2</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-option" id="optionTwoIcon"></span>
+                            <input type="text" class="form-control" id="inputOptionTwo" placeholder="Option 2"
+                                title="Ex. Australia" aria-describedby="optionTwoIcon" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid Option.
+                            </div>
+                        </div>
+                    </div>
 
-                </tr>
-                <tr>
-                    <!-- Option 1 Field -->
+                    <div class="col-md-3">
+                        <label for="inputOptionThree" class="form-label">Option 3</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-option" id="optionThreeIcon"></span>
+                            <input type="text" class="form-control" id="inputOptionThree" placeholder="Option 3"
+                                title="Ex. New Zealand" aria-describedby="optionThreeIcon" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid Option.
+                            </div>
+                        </div>
+                    </div>
 
-                    <td><label>Option 1</label></td>
-                    <td><input type="text" name="" id="inputOptionOne" placeholder="Option 1" title="Ex. India"
-                            required></td>
-                    <td><label id="labelOptionOne"></label></td>
-
-                    <!-- Option 2 Field -->
-
-                    <td><label>Option 2</label></td>
-                    <td><input type="text" name="" id="inputOptionTwo" placeholder="Option 2" title="Ex. Australia"
-                            required></td>
-                    <td><label id="labelOptionOne"></label></td>
-                </tr>
-                <tr>
-                    <!-- Option 3 Field -->
-
-                    <td><label>Option 3</label></td>
-                    <td><input type="text" name="" id="inputOptionThree" placeholder="Option 3" title="Ex. New Zealand"
-                            required></td>
-                    <td><label id="labelOptionOne"></label></td>
-
-                    <!-- Option 4 Field -->
-
-                    <td><label>Option 4</label></td>
-                    <td><input type="text" name="" id="inputOptionFour" placeholder="Option 4" title="Ex. England"
-                            required></td>
-                    <td><label id="labelOptionOne"></label></td>
-                </tr>
-                <tr>
-                    <!-- Correct Option Field -->
-
-                    <td><label>Correct Option</label></td>
-                    <td><input type="text" name="" id="inputCorrectOption" placeholder="Correct Option"
-                            title="Ex. Australia" required></td>
-                    <td><label id="labelCorrectOption"></label></td>
-
-                    <!-- Category Option Field -->
-
-                    <td><label>Category </label></td>
-                    <td><input type="text" name="" id="inputCategory" placeholder="Category"
-                            title="Ex. Sports/Gk/Entertainment" required></td>
-                    <td><label id="labelCategory"></label></td>
-
-                </tr>
-                <tr>
-                    <!-- Difficulty Level Field -->
-
-                    <td><label>Difficulty Level </label></td>
-                    <td><input type="text" name="" id="inputDifficultyLevel" placeholder="Difficulty Level"
-                            title="Easy/Medium/Hard" required>
-                    </td>
-                    <td><label id="labelDifficultyLevel"></label></td>
-                </tr>
-            </table>
-            <div class="center">
-                <!-- Submit Field -->
-
-                <input type="submit" name="" id="inputSaveData" value="Save Data">
-                <!-- Clear Field -->
-
-                <input type="reset" name="" id="inputClearData" value="Reset Fields">
-
-
-                <!-- Get Data To Update Field -->
-
-                <input type="button" name="" id="inputGetUpdateData" value="Get Data">
-
-                <!-- Update Data Field -->
-
-                <input type="button" name="" id="inputUpdateData" value="Update Data">
-
-                <!-- Delete Data Field -->
-
-                <input type="button" name="" id="inputDeleteData" value="Delete Data">
-
+                    <div class="col-md-3">
+                        <label for="inputOptionFour" class="form-label">Option 4</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-option" id="optionFourIcon"></span>
+                            <input type="text" class="form-control" id="inputOptionFour" placeholder="Option 4"
+                                title="Ex. England" aria-describedby="optionFourIcon" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid Option.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row text-center">
+                            <div class="col-sm">
+                                <!-- Submit Field -->
+                                <input type="submit" class="btn btn-success" id="inputSaveData" value="Save Data">
+                                <!-- Clear Field -->
+                                <input type="reset" class="btn btn-secondary" id="inputClearData" value="Reset Fields">
+                                <!-- Get Data To Update Field -->
+                                <input type="button" class="btn btn-info mt-2 mt-md-0 " id="inputGetUpdateData"
+                                    value="Get Data">
+                                <!-- Update Data Field -->
+                                <input type="button" class="btn btn-warning mt-2 mt-md-0" id="inputUpdateData"
+                                    value="Update Data">
+                                <!-- Delete Data Field -->
+                                <input type="button" class="btn btn-danger mt-2 mt-md-0" id="inputDeleteData"
+                                    value="Delete Data">
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
-    </fieldset>
-
+        </fieldset>
+    </div>
     <!-- Stored Data Will Come Here -->
 
-    <fieldset>
-        <legend>
+    <div class="container border border-sm mt-2 mb-5">
+        <h1 class="text-center">
             Stored Data From Server
-        </legend>
-        <div id="table">
+        </h1>
+        <div id="table" class="table-responsive mb-3">
         </div>
-    </fieldset>
+    </div>
+
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
@@ -216,7 +272,7 @@
             const dbref = ref(db);
             get(child(dbref, "Question/")).then((snapshot) => {
                 if (snapshot.exists()) {
-                    let table = '<table border="1">';
+                    let table = '<table class="table table-striped text-center table-bordered table-hover">';
                     table += `<tr>
                         <td>Question Id</td>
                         <td>Image Url</td>
@@ -229,6 +285,7 @@
                         <td>Correct Option</td>
                         <td>Category</td>
                         <td>Difficulty Level</td>
+                        <td></td>
                     </tr>`;
                     Object.keys(snapshot.val()).map(function (key) {
                         table = table + `<tr>`;
@@ -246,7 +303,7 @@
                         table = table + `<td>${snapshot.val()[key].correctOption}</td>`;
                         table = table + `<td>${snapshot.val()[key].category}</td>`;
                         table = table + `<td>${snapshot.val()[key].difficultyLevel}</td>`;
-                        table = table + `<td> <input type="button" value="Select" onclick="getId(${snapshot.val()[key].questionId})"/>`;
+                        table = table + `<td> <input class="btn btn-info" type="button" value="Select" onclick="getId(${snapshot.val()[key].questionId})"/>`;
                         table += `</tr>`;
                     });
                     table += "</table>";
@@ -341,5 +398,26 @@
         window.addEventListener('load', SelectData);
     </script>
 </body>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
 
 </html>
