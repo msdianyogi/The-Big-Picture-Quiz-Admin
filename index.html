@@ -26,17 +26,15 @@
                 Question Answer Database Creation Form
             </legend>
             <div class="container border pb-3">
-                <form class="row g-3 needs-validation" id="TBPQ" method="get" action="#" novalidate>
+                <form class="row g-3" id="TBPQ" method="get" action="#">
                     <div class="col-md-3 col-sm-12">
                         <label for="inputQuestionId" class="form-label">Question Id</label>
                         <div class="input-group">
                             <span class="input-group-text bi bi-123" id="questionIdIcon"></span>
                             <input type="text" class="form-control " id="inputQuestionId" placeholder="Question Id"
                                 pattern="[0-9]{16}" title="Please Refresh The Window" aria-describedby="questionIdIcon"
-                                required>
-                            <div class="invalid-feedback">
-                                Please Refresh Window.
-                            </div>
+                                required oninput="setCustomValidity('')"
+                                oninvalid='this.setCustomValidity("Please refresh the window")'>
                         </div>
 
                     </div>
@@ -46,10 +44,9 @@
                             <span class="input-group-text bi bi-globe" id="imageUrlIcon"></span>
                             <input type="text" class="form-control" id="inputImageUrl" placeholder="Image Url"
                                 title="Ex. https://pixabay.com/vectors/australia-australia-day-borders-1296727/"
-                                required pattern="^(http,https){1}[:][/][/]" aria-describedby="imageUrlIcon">
-                            <div class="invalid-feedback">
-                                Ex. https://pixabay.com/vectors/australia-australia-day-borders-1296727/
-                            </div>
+                                required pattern="https?://.+" aria-describedby="imageUrlIcon"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please refresh the window')">
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-12">
@@ -57,10 +54,9 @@
                         <div class="input-group">
                             <span class="input-group-text bi bi-file-person" id="imageSourceIcon"></span>
                             <input type="text" class="form-control" id="inputImageSource" placeholder="Image Source"
-                                title="Ex. Pixabay" aria-describedby="imageSourceIcon" required>
-                            <div class="invalid-feedback">
-                                Please enter source Ex. Pixabay.
-                            </div>
+                                title="Ex. Pixabay" aria-describedby="imageSourceIcon" pattern="[\w+]{3,}" required
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please enter source Ex. Pixabay.')">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -68,15 +64,13 @@
                         <div class="input-group">
                             <span class="input-group-text bi bi-water" id="difficultyLevelIcon"></span>
                             <select class="form-select" id="inputDifficultyLevel" aria-describedby="difficultyLevelIcon"
-                                required>
+                                required title="Select at least 1 difficulty level" oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please select a valid difficulty level.')">
                                 <option selected disabled value="">Select Difficulty</option>
                                 <option>Easy</option>
                                 <option>Medium</option>
                                 <option>Hard</option>
                             </select>
-                            <div class="invalid-feedback">
-                                Please select a valid difficulty level.
-                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -84,10 +78,9 @@
                         <div class="input-group">
                             <span class="input-group-text bi bi-patch-question" id="questionIcon"></span>
                             <input type="text" class="form-control" id="inputQuestion" placeholder="Question"
-                                title="Ex. Which Country's Flag is this?" aria-describedby="questionIcon" required>
-                            <div class="invalid-feedback">
-                                Please provide a valid Question.
-                            </div>
+                                title="Ex. Which Country's Flag is this?" aria-describedby="questionIcon" required
+                                pattern="[\w\W+]{10,}[?]$" oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide a valid Question.')">
                         </div>
                     </div>
 
@@ -96,10 +89,9 @@
                         <div class="input-group">
                             <span class="input-group-text bi bi-card-list" id="categoryIcon"></span>
                             <input type="text" class="form-control" id="inputCategory" placeholder="Category"
-                                title="Ex. Sports/Gk/Entertainment" aria-describedby="categoryIcon" required>
-                            <div class="invalid-feedback">
-                                Please provide a valid Category.
-                            </div>
+                                title="Ex. Sports/Gk/Entertainment" aria-describedby="categoryIcon" required
+                                pattern="[\w+]{3,}" oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide a valid Category.')">
                         </div>
                     </div>
 
@@ -108,10 +100,9 @@
                         <div class="input-group">
                             <span class="input-group-text bi bi-check-circle" id="correctOptionIcon"></span>
                             <input type="text" class="form-control" id="inputCorrectOption" placeholder="Correct Option"
-                                title="Ex. Austrilia" aria-describedby="correctOptionIcon" required>
-                            <div class="invalid-feedback">
-                                Please provide correct Option.
-                            </div>
+                                title="Ex. Austrilia" aria-describedby="correctOptionIcon" required pattern=".*{1,}"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide correct Option.')">
                         </div>
                     </div>
 
@@ -120,10 +111,9 @@
                         <div class="input-group">
                             <span class="input-group-text bi bi-option" id="optionOneIcon"></span>
                             <input type="text" class="form-control" id="inputOptionOne" placeholder="Option 1"
-                                title="Ex. India" aria-describedby="optionOneIcon" required>
-                            <div class="invalid-feedback">
-                                Please provide a valid Option.
-                            </div>
+                                title="Ex. India" aria-describedby="optionOneIcon" required pattern=".*{1,}"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
                         </div>
                     </div>
 
@@ -132,10 +122,9 @@
                         <div class="input-group">
                             <span class="input-group-text bi bi-option" id="optionTwoIcon"></span>
                             <input type="text" class="form-control" id="inputOptionTwo" placeholder="Option 2"
-                                title="Ex. Australia" aria-describedby="optionTwoIcon" required>
-                            <div class="invalid-feedback">
-                                Please provide a valid Option.
-                            </div>
+                                title="Ex. Australia" aria-describedby="optionTwoIcon" required pattern=".*{1,}"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
                         </div>
                     </div>
 
@@ -144,10 +133,9 @@
                         <div class="input-group">
                             <span class="input-group-text bi bi-option" id="optionThreeIcon"></span>
                             <input type="text" class="form-control" id="inputOptionThree" placeholder="Option 3"
-                                title="Ex. New Zealand" aria-describedby="optionThreeIcon" required>
-                            <div class="invalid-feedback">
-                                Please provide a valid Option.
-                            </div>
+                                title="Ex. New Zealand" aria-describedby="optionThreeIcon" required pattern=".*{1,}"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
                         </div>
                     </div>
 
@@ -156,10 +144,9 @@
                         <div class="input-group">
                             <span class="input-group-text bi bi-option" id="optionFourIcon"></span>
                             <input type="text" class="form-control" id="inputOptionFour" placeholder="Option 4"
-                                title="Ex. England" aria-describedby="optionFourIcon" required>
-                            <div class="invalid-feedback">
-                                Please provide a valid Option.
-                            </div>
+                                title="Ex. England" aria-describedby="optionFourIcon" required pattern=".*{1,}"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
                         </div>
                     </div>
                     <div class="col-12">
@@ -398,26 +385,5 @@
         window.addEventListener('load', SelectData);
     </script>
 </body>
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-</script>
 
 </html>
