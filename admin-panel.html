@@ -204,7 +204,8 @@
         GoogleAuthProvider,
         signInWithPopup,
         signInWithEmailAndPassword,
-        signOut
+        signOut,
+        onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js";
     // TODO: Add SDKs for Firebase products that you want to use
     // https://firebase.google.com/docs/web/setup#available-libraries
@@ -226,6 +227,15 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider(app);
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in.
+        } else {
+            // No user is signed in.
+            window.location.assign("./index.html");
+        }
+    });
 
     document.getElementById("signout").addEventListener('click', (error) => {
         signOut(auth)

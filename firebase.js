@@ -56,6 +56,7 @@ function InsertData() {
         correctOption: correctOption.value,
         category: category.value,
         difficultyLevel: difficultyLevel.value,
+        questionUploader : sessionStorage.getItem("userData"),
     })
         .then(() => {
             alert("Data Stored Successfully..!");
@@ -85,6 +86,7 @@ function SelectData() {
                 <td>Correct Option</td>
                 <td>Category</td>
                 <td>Difficulty Level</td>
+                <td>Question Uploader</td>
                 <td></td>
             </tr>`;
             Object.keys(snapshot.val()).map(function (key) {
@@ -103,6 +105,7 @@ function SelectData() {
                 table = table + `<td>${snapshot.val()[key].correctOption}</td>`;
                 table = table + `<td>${snapshot.val()[key].category}</td>`;
                 table = table + `<td>${snapshot.val()[key].difficultyLevel}</td>`;
+                table = table + `<td>${snapshot.val()[key].questionUploader}</td>`;
                 table = table + `<td> <input class="btn btn-info" type="button" value="Select" onclick="getId(${snapshot.val()[key].questionId})"/>`;
                 table += `</tr>`;
             });
