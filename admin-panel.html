@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Big Picture Quiz - Admin</title>
+    <link href="./TBPQ_Icon.png" rel="icon" sizes="16*16">
+    <link rel="stylesheet" href="./main.css">
+    <script src="./main.js"></script>
+    <script src="./firebase.js" type="module"></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+</head>
+
+<body
+    onload="setQuestionId();document.getElementById('userName').innerHTML = 'User : '+sessionStorage.getItem('userData');"
+    oncopy="return false">
+    <div class="container border mt-5 pb-3">
+        <fieldset>
+            <legend>
+                <div class="row p-1">
+                    <div class="col-md-6 col-sm-12 text-center">
+                        Question Answer Database Creation Form
+                    </div>
+                    <div class="col-md-4 col-sm-12" id="userName">
+                    </div>
+                    <div class="col-md-2 col-sm-12 text-sm-center text-md-end">
+                        <button class="btn btn-danger" id="signout">
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+            </legend>
+            <div class="container border pb-3">
+                <form class="row g-3" id="TBPQ" method="get" action="#">
+                    <div class="col-md-3 col-sm-12">
+                        <label for="inputQuestionId" class="form-label">Question Id</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-123" id="questionIdIcon"></span>
+                            <input type="text" class="form-control " id="inputQuestionId" placeholder="Question Id"
+                                pattern="[0-9]{16}" title="Please Refresh The Window" aria-describedby="questionIdIcon"
+                                required oninput="setCustomValidity('')"
+                                oninvalid='this.setCustomValidity("Please refresh the window")'>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <label for="inputImageUrl" class="form-label">Image Url</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-globe" id="imageUrlIcon"></span>
+                            <input type="text" class="form-control" id="inputImageUrl" placeholder="Image Url"
+                                title="Ex. https://pixabay.com/vectors/australia-australia-day-borders-1296727/"
+                                required pattern="https?://.+" aria-describedby="imageUrlIcon"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please refresh the window')">
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <label for="inputImageSource" class="form-label">Image Source</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-file-person" id="imageSourceIcon"></span>
+                            <input type="text" class="form-control" id="inputImageSource" placeholder="Image Source"
+                                title="Ex. Pixabay" aria-describedby="imageSourceIcon" pattern="[\w+]{3,}" required
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please enter source Ex. Pixabay.')">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputDifficultyLevel" class="form-label">Difficulty Level</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-water" id="difficultyLevelIcon"></span>
+                            <select class="form-select" id="inputDifficultyLevel" aria-describedby="difficultyLevelIcon"
+                                required title="Select at least 1 difficulty level" oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please select a valid difficulty level.')">
+                                <option selected disabled value="">Select Difficulty</option>
+                                <option>Easy</option>
+                                <option>Medium</option>
+                                <option>Hard</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputQuestion" class="form-label">Question</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-patch-question" id="questionIcon"></span>
+                            <input type="text" class="form-control" id="inputQuestion" placeholder="Question"
+                                title="Ex. Which Country's Flag is this?" aria-describedby="questionIcon" required
+                                pattern="[\w\W+]{10,}[?]$" oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide a valid Question.')">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="inputCategory" class="form-label">Category</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-card-list" id="categoryIcon"></span>
+                            <input type="text" class="form-control" id="inputCategory" placeholder="Category"
+                                title="Ex. Sports/Gk/Entertainment" aria-describedby="categoryIcon" required
+                                pattern="[\w+]{3,}" oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide a valid Category.')">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="inputCorrectOption" class="form-label">Correct Option</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-check-circle" id="correctOptionIcon"></span>
+                            <input type="text" class="form-control" id="inputCorrectOption" placeholder="Correct Option"
+                                title="Ex. Austrilia" aria-describedby="correctOptionIcon" required pattern=".*{1,}"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide correct Option.')">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="inputOptionOne" class="form-label">Option 1</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-option" id="optionOneIcon"></span>
+                            <input type="text" class="form-control" id="inputOptionOne" placeholder="Option 1"
+                                title="Ex. India" aria-describedby="optionOneIcon" required pattern=".*{1,}"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="inputOptionTwo" class="form-label">Option 2</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-option" id="optionTwoIcon"></span>
+                            <input type="text" class="form-control" id="inputOptionTwo" placeholder="Option 2"
+                                title="Ex. Australia" aria-describedby="optionTwoIcon" required pattern=".*{1,}"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="inputOptionThree" class="form-label">Option 3</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-option" id="optionThreeIcon"></span>
+                            <input type="text" class="form-control" id="inputOptionThree" placeholder="Option 3"
+                                title="Ex. New Zealand" aria-describedby="optionThreeIcon" required pattern=".*{1,}"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="inputOptionFour" class="form-label">Option 4</label>
+                        <div class="input-group">
+                            <span class="input-group-text bi bi-option" id="optionFourIcon"></span>
+                            <input type="text" class="form-control" id="inputOptionFour" placeholder="Option 4"
+                                title="Ex. England" aria-describedby="optionFourIcon" required pattern=".*{1,}"
+                                oninput="setCustomValidity('')"
+                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row text-center">
+                            <div class="col-sm">
+                                <!-- Submit Field -->
+                                <input type="submit" class="btn btn-success" id="inputSaveData" value="Save Data">
+                                <!-- Clear Field -->
+                                <input type="reset" class="btn btn-secondary" id="inputClearData" value="Reset Fields">
+                                <!-- Get Data To Update Field -->
+                                <input type="button" class="btn btn-info mt-2 mt-md-0 " id="inputGetUpdateData"
+                                    value="Get Data">
+                                <!-- Update Data Field -->
+                                <input type="button" class="btn btn-warning mt-2 mt-md-0" id="inputUpdateData"
+                                    value="Update Data">
+                                <!-- Delete Data Field -->
+                                <input type="button" class="btn btn-danger mt-2 mt-md-0" id="inputDeleteData"
+                                    value="Delete Data">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <!-- Stored Data Will Come Here -->
+
+    <div class="container border border-sm mt-2 mb-5">
+        <h1 class="text-center">
+            Stored Data From Server
+        </h1>
+        <div id="table" class="table-responsive mb-3">
+        </div>
+    </div>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
+    import {
+        getAuth,
+        GoogleAuthProvider,
+        signInWithPopup,
+        signInWithEmailAndPassword,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyChI0IvZfdZK4njzNa2Fe7OFPmrKVtL8MA",
+        authDomain: "picture-quiz-application.firebaseapp.com",
+        databaseURL: "https://picture-quiz-application-default-rtdb.firebaseio.com",
+        projectId: "picture-quiz-application",
+        storageBucket: "picture-quiz-application.appspot.com",
+        messagingSenderId: "276073581645",
+        appId: "1:276073581645:web:6dfd2cca754cb0b0106004",
+        measurementId: "G-GM10C98EL4"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider(app);
+
+    document.getElementById("signout").addEventListener('click', (error) => {
+        signOut(auth)
+            .then(() => {
+                // Sign-out successful.
+                alert("Sign-out successful");
+                sessionStorage.removeItem("userData");
+                window.location.assign("./index.html");
+            })
+            .catch((error) => {
+                // An error happened.
+                alert("Error : " + error.message);
+            });
+    });
+</script>
+
+</html>

@@ -9,7 +9,6 @@
     <link href="./TBPQ_Icon.png" rel="icon" sizes="16*16">
     <link rel="stylesheet" href="./main.css">
     <script src="./main.js"></script>
-    <script src="./firebase.js" type="module"></script>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -20,168 +19,77 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 
-<body onload="setQuestionId()" oncopy="return false">
-    <div class="container border mt-5 pb-3">
-        <fieldset>
-            <legend>
-                Question Answer Database Creation Form
-            </legend>
-            <div class="container border pb-3">
-                <form class="row g-3" id="TBPQ" method="get" action="#">
-                    <div class="col-md-3 col-sm-12">
-                        <label for="inputQuestionId" class="form-label">Question Id</label>
-                        <div class="input-group">
-                            <span class="input-group-text bi bi-123" id="questionIdIcon"></span>
-                            <input type="text" class="form-control " id="inputQuestionId" placeholder="Question Id"
-                                pattern="[0-9]{16}" title="Please Refresh The Window" aria-describedby="questionIdIcon"
-                                required oninput="setCustomValidity('')"
-                                oninvalid='this.setCustomValidity("Please refresh the window")'>
-                        </div>
-
-                    </div>
-                    <div class="col-md-3 col-sm-12">
-                        <label for="inputImageUrl" class="form-label">Image Url</label>
-                        <div class="input-group">
-                            <span class="input-group-text bi bi-globe" id="imageUrlIcon"></span>
-                            <input type="text" class="form-control" id="inputImageUrl" placeholder="Image Url"
-                                title="Ex. https://pixabay.com/vectors/australia-australia-day-borders-1296727/"
-                                required pattern="https?://.+" aria-describedby="imageUrlIcon"
-                                oninput="setCustomValidity('')"
-                                oninvalid="this.setCustomValidity('Please refresh the window')">
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-12">
-                        <label for="inputImageSource" class="form-label">Image Source</label>
-                        <div class="input-group">
-                            <span class="input-group-text bi bi-file-person" id="imageSourceIcon"></span>
-                            <input type="text" class="form-control" id="inputImageSource" placeholder="Image Source"
-                                title="Ex. Pixabay" aria-describedby="imageSourceIcon" pattern="[\w+]{3,}" required
-                                oninput="setCustomValidity('')"
-                                oninvalid="this.setCustomValidity('Please enter source Ex. Pixabay.')">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="inputDifficultyLevel" class="form-label">Difficulty Level</label>
-                        <div class="input-group">
-                            <span class="input-group-text bi bi-water" id="difficultyLevelIcon"></span>
-                            <select class="form-select" id="inputDifficultyLevel" aria-describedby="difficultyLevelIcon"
-                                required title="Select at least 1 difficulty level" oninput="setCustomValidity('')"
-                                oninvalid="this.setCustomValidity('Please select a valid difficulty level.')">
-                                <option selected disabled value="">Select Difficulty</option>
-                                <option>Easy</option>
-                                <option>Medium</option>
-                                <option>Hard</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="inputQuestion" class="form-label">Question</label>
-                        <div class="input-group">
-                            <span class="input-group-text bi bi-patch-question" id="questionIcon"></span>
-                            <input type="text" class="form-control" id="inputQuestion" placeholder="Question"
-                                title="Ex. Which Country's Flag is this?" aria-describedby="questionIcon" required
-                                pattern="[\w\W+]{10,}[?]$" oninput="setCustomValidity('')"
-                                oninvalid="this.setCustomValidity('Please provide a valid Question.')">
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="inputCategory" class="form-label">Category</label>
-                        <div class="input-group">
-                            <span class="input-group-text bi bi-card-list" id="categoryIcon"></span>
-                            <input type="text" class="form-control" id="inputCategory" placeholder="Category"
-                                title="Ex. Sports/Gk/Entertainment" aria-describedby="categoryIcon" required
-                                pattern="[\w+]{3,}" oninput="setCustomValidity('')"
-                                oninvalid="this.setCustomValidity('Please provide a valid Category.')">
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="inputCorrectOption" class="form-label">Correct Option</label>
-                        <div class="input-group">
-                            <span class="input-group-text bi bi-check-circle" id="correctOptionIcon"></span>
-                            <input type="text" class="form-control" id="inputCorrectOption" placeholder="Correct Option"
-                                title="Ex. Austrilia" aria-describedby="correctOptionIcon" required pattern=".*{1,}"
-                                oninput="setCustomValidity('')"
-                                oninvalid="this.setCustomValidity('Please provide correct Option.')">
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="inputOptionOne" class="form-label">Option 1</label>
-                        <div class="input-group">
-                            <span class="input-group-text bi bi-option" id="optionOneIcon"></span>
-                            <input type="text" class="form-control" id="inputOptionOne" placeholder="Option 1"
-                                title="Ex. India" aria-describedby="optionOneIcon" required pattern=".*{1,}"
-                                oninput="setCustomValidity('')"
-                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="inputOptionTwo" class="form-label">Option 2</label>
-                        <div class="input-group">
-                            <span class="input-group-text bi bi-option" id="optionTwoIcon"></span>
-                            <input type="text" class="form-control" id="inputOptionTwo" placeholder="Option 2"
-                                title="Ex. Australia" aria-describedby="optionTwoIcon" required pattern=".*{1,}"
-                                oninput="setCustomValidity('')"
-                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="inputOptionThree" class="form-label">Option 3</label>
-                        <div class="input-group">
-                            <span class="input-group-text bi bi-option" id="optionThreeIcon"></span>
-                            <input type="text" class="form-control" id="inputOptionThree" placeholder="Option 3"
-                                title="Ex. New Zealand" aria-describedby="optionThreeIcon" required pattern=".*{1,}"
-                                oninput="setCustomValidity('')"
-                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="inputOptionFour" class="form-label">Option 4</label>
-                        <div class="input-group">
-                            <span class="input-group-text bi bi-option" id="optionFourIcon"></span>
-                            <input type="text" class="form-control" id="inputOptionFour" placeholder="Option 4"
-                                title="Ex. England" aria-describedby="optionFourIcon" required pattern=".*{1,}"
-                                oninput="setCustomValidity('')"
-                                oninvalid="this.setCustomValidity('Please provide valid Option.')">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row text-center">
-                            <div class="col-sm">
-                                <!-- Submit Field -->
-                                <input type="submit" class="btn btn-success" id="inputSaveData" value="Save Data">
-                                <!-- Clear Field -->
-                                <input type="reset" class="btn btn-secondary" id="inputClearData" value="Reset Fields">
-                                <!-- Get Data To Update Field -->
-                                <input type="button" class="btn btn-info mt-2 mt-md-0 " id="inputGetUpdateData"
-                                    value="Get Data">
-                                <!-- Update Data Field -->
-                                <input type="button" class="btn btn-warning mt-2 mt-md-0" id="inputUpdateData"
-                                    value="Update Data">
-                                <!-- Delete Data Field -->
-                                <input type="button" class="btn btn-danger mt-2 mt-md-0" id="inputDeleteData"
-                                    value="Delete Data">
-                            </div>
-                        </div>
-                    </div>
-                </form>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-10 offset-1 text-center mt-5 border border-5">
+                <h1>Welcome to The Big Picture Quiz</h1>
             </div>
-        </fieldset>
-    </div>
-    <!-- Stored Data Will Come Here -->
-
-    <div class="container border border-sm mt-2 mb-5">
-        <h1 class="text-center">
-            Stored Data From Server
-        </h1>
-        <div id="table" class="table-responsive mb-3">
+        </div>
+        <div class="row text-center">
+            <div class="col-10 offset-1 border border-5 mt-5 pt-5 pb-5">
+                <button class="btn btn-primary" id="login">
+                    Login with Google
+                    <i class="bi bi-google mt-5"></i>
+            </div>
         </div>
     </div>
 </body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
+    import {
+        getAuth,
+        GoogleAuthProvider,
+        signInWithPopup,
+        signInWithEmailAndPassword,
+    } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyChI0IvZfdZK4njzNa2Fe7OFPmrKVtL8MA",
+        authDomain: "picture-quiz-application.firebaseapp.com",
+        databaseURL: "https://picture-quiz-application-default-rtdb.firebaseio.com",
+        projectId: "picture-quiz-application",
+        storageBucket: "picture-quiz-application.appspot.com",
+        messagingSenderId: "276073581645",
+        appId: "1:276073581645:web:6dfd2cca754cb0b0106004",
+        measurementId: "G-GM10C98EL4"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider(app);
+
+    
+document.getElementById('login').addEventListener("click", (e) => {
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            sessionStorage.setItem("userData", user.displayName);
+            window.location.assign("./admin-panel.html");
+            return signInWithPopup(auth, provider);
+    })
+        .catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+        
+            alert(error.message);
+    });
+});
+</script>
 
 </html>
