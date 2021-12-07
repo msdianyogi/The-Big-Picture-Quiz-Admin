@@ -231,6 +231,7 @@
     onAuthStateChanged(auth, (user) => {
         if (user) {
             // User is signed in.
+            window.alert("Welcome to TBPQ Admin Panel : " + user.displayName)
         } else {
             // No user is signed in.
             window.location.assign("./index.html");
