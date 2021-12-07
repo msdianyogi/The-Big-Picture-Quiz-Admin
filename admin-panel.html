@@ -26,6 +26,15 @@
     <div class="container border mt-5 pb-3">
         <fieldset>
             <legend>
+                <div>
+                    <div class="row">
+                        <marquee direction="right">
+                            <div class="col-12" id="loginMessage">
+                            </div>
+                        </marquee>
+                        <hr>
+                    </div>
+                </div>
                 <div class="row p-1">
                     <div class="col-md-6 col-sm-12 text-center">
                         Question Answer Database Creation Form
@@ -231,7 +240,7 @@
     onAuthStateChanged(auth, (user) => {
         if (user) {
             // User is signed in.
-            window.alert("Welcome to TBPQ Admin Panel : " + user.displayName)
+            document.getElementById("loginMessage").innerHTML = "Welcome to TBPQ Admin Panel : " + user.displayName;
         } else {
             // No user is signed in.
             window.location.assign("./index.html");
